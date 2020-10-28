@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from './components/Layout/Navbar';
 import Users from './components/Users/Users'
+import User from './components/Users/User'
 import axios from 'axios'
 import Search from "./components/Users/Search"
 import Alert from "./components/Layout/Alert"
@@ -11,6 +12,7 @@ import './App.css';
 class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null
   }
@@ -28,6 +30,13 @@ class App extends Component {
     this.setState({ users: response.data.items, loading: false })
   }
 
+  // Get single user
+  getUser = async (username) => {
+    this.setState({ loading: true })
+    const response = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`);
+    this.setState({ user: response.data, loading: false })
+  }
+
   // Clear users from state
   clearUsers = () => {
     this.setState({ users: [], loading: false })
@@ -40,7 +49,7 @@ class App extends Component {
   }
 
   render() {
-    const { users, alert, loading } = this.state;
+    const { users, alert, loading, user } = this.state;
     return (
       <Router>
         <div className='App'>
@@ -55,6 +64,9 @@ class App extends Component {
                 </Fragment>
               )}></Route>
               <Route path="/about" exact component={About} />
+              <Route path="/user/:login" exact render={props => (
+                <User {...props} getUser={this.getUser} user={user} loading={loading} />
+              )} />
             </Switch>
           </div>
         </div>
