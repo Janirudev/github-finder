@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Alert = ({ alert }) => {
   return (
@@ -7,6 +7,6 @@ const Alert = ({ alert }) => {
         <i className="fas fa-info circle"></i> {alert.msg}
       </div>
     )
-  )
-}
-export default Alert
+  );
+};
+export default Alert;
