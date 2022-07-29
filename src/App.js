@@ -17,22 +17,6 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  // async componentDidMount() {
-  //   this.setState({ loading: true })
-  //   const response = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`);
-  //   this.setState({ users: response.data, loading: false })
-  // }
-
-  // Search Github users
-  const searchUsers = async (text) => {
-    setLoading(true);
-    const response = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`
-    );
-    setLoading(false);
-    setUsers(response.data.items);
-  };
-
   // Get single user
   const getUser = async (username) => {
     setLoading(true);
@@ -81,7 +65,6 @@ const App = () => {
                 render={(props) => (
                   <Fragment>
                     <Search
-                      searchUsers={searchUsers}
                       clearUsers={clearUsers}
                       showClear={users.length > 0 ? true : false}
                       setAlert={showAlertMsg}
